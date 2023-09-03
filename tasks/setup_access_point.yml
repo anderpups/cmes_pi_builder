@@ -1,0 +1,21 @@
+---
+- name: Copy 08-wlan0.network file
+  ansible.builtin.copy:
+    src: files/08-wlan0.network
+    dest: /etc/systemd/network/08-wlan0.network
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reboot host
+
+- name: Copy 04-eth0.network file
+  ansible.builtin.copy:
+    src: files/04-eth0.network
+    dest: /etc/systemd/network/04-eth0.network
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reboot host
+
+- name: Reboot if handler was notified
+  ansible.builtin.meta: flush_handlers

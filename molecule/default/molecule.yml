@@ -1,0 +1,21 @@
+---
+driver:
+  name: vagrant
+platforms:
+  - name: debian-bullseye
+    box: debian/bullseye64
+provisioner:
+  name: ansible
+  playbooks:
+    converge: ../../site.yml
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+      fact_caching: jsonfile
+      fact_caching_connection: tmp/facts_cache
+verifier:
+  name: ansible
+lint: |
+  yamllint -c .yamllint.yml .
+  ansible-lint ../dti_linux_common

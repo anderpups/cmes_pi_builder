@@ -1,0 +1,28 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+  tasks:
+    - name: Add non-free repository into sources list
+      ansible.builtin.apt_repository:
+        repo: deb http://http.debian.net/debian/ bullseye main contrib non-free
+        state: present
+
+    - name: Run the equivalent of "apt-get update" as a separate step
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Add packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - wpasupplicant
+        - rfkill
+        - iw
+        - wireless-tools
+        - firmware-misc-nonfree
+
+    - name: Remember to create usb wlan
+      ansible.builtin.debug:
+        msg: Remember to add the usb wifi card

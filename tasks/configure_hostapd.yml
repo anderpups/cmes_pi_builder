@@ -1,0 +1,109 @@
+---
+- name: Create journalctl log file directory
+  ansible.builtin.file:
+    path: /var/log/journal
+    owner: root
+    group: systemd-journal
+    mode: '755'
+    state: directory
+  changed_when: false # next task changes permissions
+
+- name: Create tmp files
+  ansible.builtin.command: systemd-tmpfiles --create --prefix /var/log/journal
+  changed_when: false
+
+- name: Install rng-tools
+  ansible.builtin.apt:
+    name: rng-tools
+    state: present
+
+- name: Mask networking.service
+  ansible.builtin.systemd:
+    name: networking
+    daemon_reload: yes
+    state: stopped
+    enabled: false
+    masked: true
+
+- name: Mask dhcpcd
+  ansible.builtin.systemd:
+    name: dhcpcd
+    daemon_reload: yes
+    state: stopped
+    enabled: false
+    masked: true
+  register: result
+  until: result is not failed
+  retries: 5
+  delay: 3
+
+- name: Disable network/interfaces # This can be better
+  ansible.builtin.command: mv /etc/network/interfaces /etc/network/interfaces~
+  changed_when: false
+  failed_when: false
+
+- name: Add line to resolvconf.conf
+  ansible.builtin.lineinfile:
+    path: /etc/resolvconf.conf
+    regexp: '^resolvconf=.+'
+    insertbefore: BOF
+    line: 'resolvconf=NO'
+    create: true
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable systemd-networkd.service
+  ansible.builtin.systemd:
+    name: systemd-networkd
+    enabled: true
+
+- name: Enable systemd-resolved.service
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    enabled: true
+
+- name: Create symlink for resolv.conf
+  ansible.builtin.file:
+    path: /etc/resolv.conf
+    src: /run/systemd/resolve/resolv.conf
+    owner: root
+    group: root
+    mode: '0644'
+    state: link
+    follow: false
+    force: true
+
+- name: Create wpa_supplicant@wlan0.service.d directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/wpa_supplicant@wlan0.service.d/
+    owner: root
+    group: root
+    mode: '755'
+    state: directory
+  changed_when: false # next task changes permissions
+
+- name: Create NAT Routing for the wpa_supplicant@wlan0.service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/wpa_supplicant@wlan0.service.d/override.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      [Service]
+      ExecStartPre=/sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+      ExecStopPost=-/sbin/iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+- name: Restart systemd-networkd.service
+  ansible.builtin.systemd:
+    name: systemd-networkd
+    daemon_reload: true
+    enabled: true
+    state: restarted
+
+- name: Restart wpa_supplicant@wlan0.service
+  ansible.builtin.systemd:
+    name: wpa_supplicant@wlan0
+    daemon_reload: true
+    enabled: true
+    state: restarted

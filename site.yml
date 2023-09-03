@@ -1,0 +1,23 @@
+---
+- name: Create the CMES-Pi
+  hosts: all
+  become: true
+  tasks:
+    - name: Patch and reboot system
+      ansible.builtin.include_tasks: tasks/patch_system.yml
+
+    - name: Configure wpa_supplicant as access point
+      ansible.builtin.include_tasks: tasks/configure_wpa_supplicant.yml
+
+    - name: Set up access point with eth0 on NAT
+      ansible.builtin.include_tasks: tasks/setup_access_point.yml
+
+    - name: Configure hostapd
+      ansible.builtin.include_tasks: tasks/configure_hostapd.yml
+
+    # - name: Configure ufw
+    #   ansible.builtin.include_tasks: tasks/configure_ufw.yml
+
+  handlers:
+    - name: Reboot host
+      ansible.builtin.reboot:
