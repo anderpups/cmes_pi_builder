@@ -23,6 +23,9 @@
         - wireless-tools
         - firmware-misc-nonfree
 
+    - name: Shutting down the machine to add the usb wlan device
+      community.general.shutdown:
+
     - name: Remember to create usb wlan
       ansible.builtin.debug:
         msg: Remember to add the usb wifi card

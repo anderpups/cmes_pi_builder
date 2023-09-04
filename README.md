@@ -7,4 +7,9 @@
   - rfkill
 - create secrets for:
   - wpa_supplicant-wlan0.conf CMES password?
-  - 
+
+
+# Notes
+- If startup hangs on wlan remove and reattach wifi card passthrough
+- You will have to manually copy over the ssh key to the server
+

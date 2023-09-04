@@ -1,0 +1,28 @@
+---
+- name: Add package
+  ansible.builtin.apt:
+    name: fail2ban
+    state: present
+
+- name: Copy jail.local file
+  ansible.builtin.copy:
+    src: files/fail2ban/jail.local
+    dest: /etc/fail2ban/jail.local
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart fail2ban
+
+- name: Create the fail2ban logs
+  ansible.builtin.file:
+    path: /var/log/nginx_error.log
+    owner: root
+    group: root
+    mode: '0600'
+    access_time: preserve
+    modification_time: preserve
+    state: touch
+  notify: Restart fail2ban
+
+- name: Restart fail2ban if needed
+  ansible.builtin.meta: flush_handlers

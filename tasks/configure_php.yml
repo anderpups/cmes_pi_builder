@@ -1,0 +1,54 @@
+---
+- name: Add package
+  ansible.builtin.apt:
+    state: present
+    pkg:
+      - php
+      - php-common
+      - php-cli
+      - php-fpm
+      - php-json
+      - php-zip
+      - php-gd
+      - php-mbstring
+
+- name: Enable the Apache2 module {{ item }}
+  community.general.apache2_module:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - proxy_fcgi
+    - setenvif
+  notify: Restart apache
+
+- name: Create symlink for php7.4-fpm.conf # Same as running a2enconf php7.4-fpm
+  ansible.builtin.file:
+    path: /etc/apache2/conf-enabled/php7.4-fpm.conf
+    src: /etc/apache2/conf-available/php7.4-fpm.conf
+    owner: root
+    group: root
+    mode: '0644'
+    state: link
+    follow: false
+    force: true
+  notify: Restart apache
+
+- name: Create symlink for php7.4-fpm.conf # Same as running a2enconf php7.4-fpm
+  ansible.builtin.file:
+    path: /etc/php/7.4/apache2
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+- name: Copy php.ini file
+  ansible.builtin.copy:
+    src: files/apache2/php.ini
+    dest: /etc/php/7.4/apache2/php.ini
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart apache
+
+- name: Restart apache if needed
+  ansible.builtin.meta: flush_handlers

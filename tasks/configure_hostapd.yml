@@ -20,16 +20,12 @@
 - name: Mask networking.service
   ansible.builtin.systemd:
     name: networking
-    daemon_reload: yes
-    state: stopped
     enabled: false
     masked: true
 
 - name: Mask dhcpcd
   ansible.builtin.systemd:
     name: dhcpcd
-    daemon_reload: yes
-    state: stopped
     enabled: false
     masked: true
   register: result
@@ -97,13 +93,4 @@
 - name: Restart systemd-networkd.service
   ansible.builtin.systemd:
     name: systemd-networkd
-    daemon_reload: true
     enabled: true
-    state: restarted
-
-- name: Restart wpa_supplicant@wlan0.service
-  ansible.builtin.systemd:
-    name: wpa_supplicant@wlan0
-    daemon_reload: true
-    enabled: true
-    state: restarted

@@ -11,7 +11,7 @@
 
 - name: Copy wpa_supplicant-wlan0.conf file
   ansible.builtin.copy:
-    src: files/wpa_supplicant-wlan0.conf
+    src: files/network/wpa_supplicant-wlan0.conf
     dest: /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
     owner: root
     group: root

@@ -1,0 +1,5 @@
+---
+- name: Generate an OpenSSH keypair
+  community.crypto.openssh_keypair:
+    path: '~/.ssh/id_rsa'
+  become: false

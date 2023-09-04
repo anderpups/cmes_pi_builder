@@ -1,0 +1,37 @@
+---
+- name: Add packages
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+
+- name: Start ufw.service
+  ansible.builtin.systemd:
+    name: ufw
+    daemon_reload: true
+    enabled: true
+    state: started
+
+- name: Enable UFW # This may not be needed since we enabled the systemd service
+  community.general.ufw:
+    state: enabled
+
+- name: Add ufw rules
+  community.general.ufw:
+    rule: allow
+    port: "{{ item.port }}"
+    proto: "{{ item.proto | default(omit) }}"
+    comment: "{{ item.comment | default(omit) }}"
+  loop:
+    - port: bootps
+      comment: 'this adds 67/udp'
+    - port: '53'
+      proto: udp
+    - port: '53'
+      proto: tcp
+    - port: 'http'
+    - port: '8080'
+      proto: tcp
+    - port: 'https'
+    - port: 'ssh'
+      proto: tcp
+    - port: 'ntp'

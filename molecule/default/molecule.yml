@@ -6,8 +6,12 @@ platforms:
     box: debian/bullseye64
 provisioner:
   name: ansible
-  playbooks:
-    converge: ../../site.yml
+  inventory:
+    group_vars:
+      all:
+        files_needing_changed:
+          - ${MOLECULE_INVENTORY_FILE}
+          - ${MOLECULE_INSTANCE_CONFIG}
   config_options:
     defaults:
       interpreter_python: auto_silent
