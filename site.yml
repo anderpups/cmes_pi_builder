@@ -47,6 +47,12 @@
         - name: Clean up pi
           ansible.builtin.include_tasks: tasks/clean_up_pi.yml
 
+        - name: Install CMES App
+          ansible.builtin.include_tasks: tasks/install_cmes_app.yml
+
+        - name: Configure hostname
+          ansible.builtin.include_tasks: tasks/configure_hostname.yml
+
   handlers:
     - name: Reboot host
       ansible.builtin.reboot:

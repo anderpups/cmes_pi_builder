@@ -1,0 +1,51 @@
+---
+- name: Created needed folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  become: false
+  loop:
+    - ~/PiBackups
+    - ~/PiBackups/Content
+    - ~/PiBackups/NewLogs
+    - ~/PiBackups/NewTags
+    - ~/PiBackups/NewVersion
+    - ~/PiBackups/NewVersion/CMES-Pi
+
+- name: Created needed folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    mode: '0777' # Can probably make these less
+  loop:
+    - /var/www/html/CMES-Pi
+    - /var/www/html/CMES-Pi/assets
+    - /var/www/html/CMES-Pi/assets/Content
+    - /var/www/html/CMES-Pi/assets/Local
+    - /var/www/html/CMES-Pi/assets/Log
+    - /var/www/html/CMES-Pi/assets/Tags
+    - /var/www/html/CMES-Pi/assets/XML
+
+- name: Touch log files
+  ansible.builtin.file:
+    path: "/var/www/html/CMES-Pi/assets/Log/{{ item }}"
+    state: touch
+    mode: '0777'
+    access_time: preserve
+    modification_time: preserve
+  become: false
+  loop:
+    - PiAdminLog.txt
+    - UserLoginLog.txt
+    - UserUsageLog.txt
+
+- name: Copy UserSearchLog.xml file
+  ansible.builtin.copy:
+    src: files/log/UserSearchLog.xml
+    dest: /var/www/html/CMES-Pi/assets/Log/UserSearchLog.xml
+    owner: root
+    group: root
+    mode: '0777'

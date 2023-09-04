@@ -12,7 +12,7 @@
 - name: Reboot if handler was notified
   ansible.builtin.meta: flush_handlers
 
-- name: Show IP info # This shouldn't be needed once were are confident in the ping testshut
+- name: Show IP info # This shouldn't be needed once were are confident in the ping tests
   ansible.builtin.debug:
     msg: "{{ ansible_default_ipv4 }}"
 

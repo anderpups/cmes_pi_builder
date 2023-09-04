@@ -25,7 +25,7 @@
     - name: Grab the IP of the host # noqa risky-shell-pipe
       ansible.builtin.shell: >-
         virsh net-dhcp-leases vagrant-libvirt |
-        grep {{ inventory_hostname }} |
+        grep {{ ansible_hostname }} |
         awk '{print $5}'
       changed_when: false
       delegate_to: localhost
@@ -44,7 +44,7 @@
     - name: Update the inventory with new IPs
       ansible.builtin.meta: refresh_inventory
 
-- name: Run the playbook for step1
+- name: Run the playbook for step2
   ansible.builtin.import_playbook: ../../site.yml
   vars:
     step2: true
