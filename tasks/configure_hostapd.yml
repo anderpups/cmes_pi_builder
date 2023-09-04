@@ -23,6 +23,13 @@
     enabled: false
     masked: true
 
+- name: Mask avahi-daemon.service
+  ansible.builtin.systemd:
+    name: avahi-daemon
+    enabled: false
+    masked: true
+  failed_when: false # The service may not exist
+
 - name: Mask dhcpcd
   ansible.builtin.systemd:
     name: dhcpcd

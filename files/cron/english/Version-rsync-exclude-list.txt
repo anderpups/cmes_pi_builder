@@ -1,0 +1,5 @@
+assets/Content
+assets/Local
+assets/Tags
+assets/XML
+assets/Log

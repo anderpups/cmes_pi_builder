@@ -20,7 +20,7 @@
 
     - name: Wait for the reboot
       ansible.builtin.pause:
-        seconds: 10
+        seconds: 15
 
     - name: Grab the IP of the host # noqa risky-shell-pipe
       ansible.builtin.shell: >-

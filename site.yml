@@ -14,8 +14,8 @@
         - name: Configure wpa_supplicant as access point
           ansible.builtin.include_tasks: tasks/configure_wpa_supplicant.yml
 
-        - name: Set up access point with eth0 on NAT
-          ansible.builtin.include_tasks: tasks/setup_access_point.yml
+        - name: Configure access point with eth0 on NAT
+          ansible.builtin.include_tasks: tasks/configure_access_point.yml
 
         - name: Configure hostapd
           ansible.builtin.include_tasks: tasks/configure_hostapd.yml
@@ -37,6 +37,15 @@
 
         - name: Configure php
           ansible.builtin.include_tasks: tasks/configure_php.yml
+
+        - name: Configure cron jobs
+          ansible.builtin.include_tasks: tasks/configure_cron.yml
+
+        - name: Configure power management
+          ansible.builtin.include_tasks: tasks/configure_power_management.yml
+
+        - name: Clean up pi
+          ansible.builtin.include_tasks: tasks/clean_up_pi.yml
 
   handlers:
     - name: Reboot host
