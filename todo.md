@@ -5,7 +5,7 @@
   - wpasupplicant
   - rfkill
   - iw
-  - deb http://http.debian.net/debian/ bullseye main contrib non-free
+  - `deb http://http.debian.net/debian/ bullseye main contrib non-free`
     - firmeware-misc-nonfree
 - create secrets for:
   - wpa_supplicant-wlan0.conf CMES password?

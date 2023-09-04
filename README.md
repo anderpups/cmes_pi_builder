@@ -1,6 +1,6 @@
 # twb_pi_builder
 
-# TODO
+## TODO
 - README
 - if using non-desktop figure out packages needed
   - wpasupplicant
@@ -9,7 +9,7 @@
   - wpa_supplicant-wlan0.conf CMES password?
 
 
-# Notes
-- If startup hangs on wlan remove and reattach wifi card passthrough
+## Notes
+- If startup hangs on wlan remove and reattach Wi-Fi card passthrough
 - You will have to manually copy over the ssh key to the server
 
