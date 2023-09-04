@@ -9,4 +9,5 @@
     - firmeware-misc-nonfree
 - create secrets for:
   - wpa_supplicant-wlan0.conf CMES password?
-  - 
+
+Stopped at Step 12: Add all scripts to crontab
