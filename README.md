@@ -10,7 +10,7 @@ ansible-playbook --inventory [Pi ip address], --user pi --ask-pass --ask-become-
 ## Things to review
 - Should we be using a more lightweight OS?
 - Should SSH be enabled?
-- Should the wifi password be encrypted in play?
+- Should the Wi-Fi password be encrypted in play?
 - Why not 64bit?
 - Should we change the pi password?
 

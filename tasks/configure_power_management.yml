@@ -9,7 +9,8 @@
     group: root
     mode: '0644'
 
-- name: Copy 10-blanking.conf file # This is the same as running raspi-config to disable screen blanking
+# This is the same as running raspi-config to disable screen blanking
+- name: Copy 10-blanking.conf file
   ansible.builtin.copy:
     src: files/power_management/10-blanking.conf
     dest: /etc/X11/xorg.conf.d/10-blanking.conf

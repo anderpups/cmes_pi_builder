@@ -1,5 +1,5 @@
 ---
-- name: Copy create a copy of wpa_supplicant.conf file # Not sure if this is needed
+- name: Copy create a copy of wpa_supplicant.conf file # Not sure if needed
   ansible.builtin.copy:
     src: /etc/wpa_supplicant.conf
     dest: /etc/wpa_supplicant/wpa_supplicant.conf.home
