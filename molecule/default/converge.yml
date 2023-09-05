@@ -1,9 +1,7 @@
 ---
 ## This is pretty kludgy but how we have to deal with the network change
 - name: Run the playbook for step1
-  ansible.builtin.import_playbook: ../../site.yml
-  vars:
-    step1: true
+  ansible.builtin.import_playbook: ../../step1.yml
 
 - name: Replace inventory IPs and reboot
   hosts: all
@@ -45,6 +43,4 @@
       ansible.builtin.meta: refresh_inventory
 
 - name: Run the playbook for step2
-  ansible.builtin.import_playbook: ../../site.yml
-  vars:
-    step2: true
+  ansible.builtin.import_playbook: ../../step2.yml

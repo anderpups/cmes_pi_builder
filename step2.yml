@@ -1,0 +1,49 @@
+---
+- name: Step 2 in Creating a CMES-Pi
+  hosts: all
+  become: true
+  tasks:
+      ## We have to split into two steps because when networking changes
+      ## DHCP gives out a new IP which breaks Ansible
+    - name: Configure ufw
+      ansible.builtin.include_tasks: tasks/configure_ufw.yml
+
+    - name: Configure ssh key
+      ansible.builtin.include_tasks: tasks/configure_ssh_key.yml
+
+    - name: Configure fail2ban
+      ansible.builtin.include_tasks: tasks/configure_fail2ban.yml
+
+    - name: Configure apache2
+      ansible.builtin.include_tasks: tasks/configure_apache2.yml
+
+    - name: Configure php
+      ansible.builtin.include_tasks: tasks/configure_php.yml
+
+    - name: Configure cron jobs
+      ansible.builtin.include_tasks: tasks/configure_cron.yml
+
+    - name: Configure power management
+      ansible.builtin.include_tasks: tasks/configure_power_management.yml
+
+    - name: Clean up pi
+      ansible.builtin.include_tasks: tasks/clean_up_pi.yml
+
+    - name: Install CMES App
+      ansible.builtin.include_tasks: tasks/install_cmes_app.yml
+
+    - name: Configure hostname
+      ansible.builtin.include_tasks: tasks/configure_hostname.yml
+
+  handlers:
+    - name: Reboot host
+      ansible.builtin.reboot:
+
+    - name: Restart fail2ban
+      ansible.builtin.shell: fail2ban-client stop && fail2ban-client start
+      changed_when: false
+
+    - name: Restart apache
+      ansible.builtin.systemd:
+        state: restarted
+        name: apache2
