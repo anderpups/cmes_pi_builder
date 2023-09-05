@@ -1,0 +1,21 @@
+---
+- name: Run the equivalent of "apt-get update"
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false
+
+- name: Update system
+  ansible.builtin.apt:
+    upgrade: full
+  notify: Reboot host
+
+- name: Reboot if handler was notified
+  ansible.builtin.meta: flush_handlers
+
+- name: Test pinging google.com
+  ansible.builtin.command: ping -4 -q -c 1 -w 2 google.com
+  register: result
+  until: result is not failed
+  retries: 5
+  delay: 5
+  changed_when: false

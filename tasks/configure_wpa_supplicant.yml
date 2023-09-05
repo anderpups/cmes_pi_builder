@@ -1,0 +1,39 @@
+---
+- name: Copy create a copy of wpa_supplicant.conf file # Not sure if needed
+  ansible.builtin.copy:
+    src: /etc/wpa_supplicant.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf.home
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0644'
+  failed_when: false
+
+- name: Copy wpa_supplicant-wlan0.conf file
+  ansible.builtin.copy:
+    src: files/network/wpa_supplicant-wlan0.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Reboot host
+
+- name: Disable wpa_supplicant.service
+  ansible.builtin.systemd:
+    name: wpa_supplicant
+    state: stopped
+    enabled: false
+  notify: Reboot host
+
+- name: Start wpa_supplicant@wlan0.service
+  ansible.builtin.systemd:
+    name: wpa_supplicant@wlan0
+    enabled: true
+  notify: Reboot host
+
+- name: Remove wlan from rfkill list
+  ansible.builtin.command: rfkill unblock wlan
+  changed_when: false
+
+- name: Reboot if handler was notified
+  ansible.builtin.meta: flush_handlers

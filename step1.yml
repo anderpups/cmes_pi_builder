@@ -1,0 +1,22 @@
+---
+- name: Step 1 in Creating a CMES-Pi
+  hosts: all
+  become: true
+  tasks:
+      ## We have to split into two steps because when networking changes
+      ## DHCP gives out a new IP which breaks Ansible
+    - name: Patch and reboot system
+      ansible.builtin.include_tasks: tasks/patch_system.yml
+
+    - name: Configure wpa_supplicant as access point
+      ansible.builtin.include_tasks: tasks/configure_wpa_supplicant.yml
+
+    - name: Configure access point with eth0 on NAT
+      ansible.builtin.include_tasks: tasks/configure_access_point.yml
+
+    - name: Configure hostapd
+      ansible.builtin.include_tasks: tasks/configure_hostapd.yml
+
+  handlers:
+    - name: Reboot host
+      ansible.builtin.reboot:

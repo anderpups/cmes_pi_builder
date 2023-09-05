@@ -1,0 +1,48 @@
+---
+- name: Copy cron files
+  ansible.builtin.copy:
+    src: files/cron/{{ language | default('english') }}/
+    dest: ~/Cron/
+    mode: '0755'
+  become: false
+
+- name: Add crontab entries
+  ansible.builtin.cron:
+    name: "{{ item.name }}"
+    job: "{{ item.job }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day | default('*') }}"
+  loop:
+    - name: Reboot
+      job: sudo reboot
+      minute: 15
+      hour: 2,6,10,14,18,22
+    - name: Version.sh
+      job: /home/pi/Cron/Version.sh
+      minute: 25
+      hour: 6,14,22
+    - name: UpdateIP.sh
+      job: /home/pi/Cron/UpdateIP.sh
+      minute: 5
+      hour: 2,6,10,14,18,22
+      day: 11,13
+    - name: UpdateContent.sh
+      job: /home/pi/Cron/UpdateContent.sh
+      minute: 25
+      hour: 2,10,18
+    - name: LogReport.sh
+      job: /home/pi/Cron/LogReport.sh
+      minute: 45
+      hour: 9,13,17,21
+      day: 10,11,12,13
+    - name: GetLogs.sh
+      job: /home/pi/Cron/GetLogs.sh
+      minute: 45
+      hour: 9,13,17,21
+      day: 14,15,16,17
+    - name: CopyLogs.sh
+      job: /home/pi/Cron/CopyLogs.sh
+      minute: 45
+      hour: 9,13,17,21
+      day: 6,7,8,9

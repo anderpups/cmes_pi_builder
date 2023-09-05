@@ -1,0 +1,19 @@
+---
+- name: Add line to /etc/rc.local
+  ansible.builtin.lineinfile:
+    path: /etc/rc.local
+    line: 'iwconfig wlan0 power off'
+    insertbefore: 'exit 0'
+    create: true
+    owner: root
+    group: root
+    mode: '0644'
+
+# This is the same as running raspi-config to disable screen blanking
+- name: Copy 10-blanking.conf file
+  ansible.builtin.copy:
+    src: files/power_management/10-blanking.conf
+    dest: /etc/X11/xorg.conf.d/10-blanking.conf
+    owner: root
+    group: root
+    mode: '0644'
