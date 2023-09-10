@@ -35,6 +35,9 @@
     - name: Configure hostname
       ansible.builtin.include_tasks: tasks/configure_hostname.yml
 
+    - name: Verify build
+      ansible.builtin.include_tasks: tasks/verify.yml
+
   handlers:
     - name: Reboot host
       ansible.builtin.reboot:

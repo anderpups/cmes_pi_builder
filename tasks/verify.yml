@@ -1,0 +1,11 @@
+---
+- name: Make sure internet is not accessible from wlan0
+  ansible.builtin.command: ping -4 -I wlan0 -q -c 1 -w 2 google.com
+  register: result
+  changed_when: false
+  failed_when: result is not failed
+
+- name: Check if site is up
+  ansible.builtin.uri:
+    url: http://{{ ansible_wlan0.ipv4.address }}
+  register: result
