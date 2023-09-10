@@ -57,7 +57,7 @@ Not tested as of 9/10/23
 
 ### Windows
 
-Ansible can be installed on a Windows through (WSL)[https://learn.microsoft.com/en-us/windows/wsl/about]. Instructions can be found [here](https://www.youtube.com/watch?v=4w6eVmYY-Oc).
+Ansible can be installed on a Windows through [WSL](https://learn.microsoft.com/en-us/windows/wsl/about). Instructions can be found [here](https://www.youtube.com/watch?v=4w6eVmYY-Oc).
 Not tested as of 9/10/23
 
 ### Installing Collections
