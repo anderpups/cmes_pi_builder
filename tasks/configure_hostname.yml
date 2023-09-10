@@ -3,7 +3,8 @@
   ansible.builtin.lineinfile:
     path: /etc/hosts
     regexp: '^127\.0\.1\.1'
-    line: 127.0.1.1	CMES-Pi-00000
+    line: |
+      127.0.1.1	CMES-Pi-00000
     owner: root
     group: root
     mode: '0644'
