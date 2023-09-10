@@ -9,7 +9,7 @@
       ansible.builtin.include_tasks: tasks/configure_ufw.yml
 
     - name: Configure ssh key
-      ansible.builtin.include_tasks: tasks/configure_ssh_key.yml
+      ansible.builtin.include_tasks: tasks/configure_ssh.yml
 
     - name: Configure fail2ban
       ansible.builtin.include_tasks: tasks/configure_fail2ban.yml

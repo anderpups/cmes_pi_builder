@@ -7,7 +7,7 @@
     create: true
     owner: root
     group: root
-    mode: '0644'
+    mode: '0755'
 
 # This is the same as running raspi-config to disable screen blanking
 - name: Copy 10-blanking.conf file
