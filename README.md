@@ -3,29 +3,30 @@
 ## Instructions
 
 1. Write the base Rasbian 32bit Desktop image to an SD card. The default user is `pi` and the password should be supplied.
-1. Enable SSH server `sudo raspi-config -> Interface Options -> SSH -> Yes` if not already.
-1. Grab the IP address for the pi.
-1. Run `step1.yml` with the below command. When prompted enter password. Press `ENTER` to accept the default become password
+2. Enable SSH server `sudo raspi-config -> Interface Options -> SSH -> Yes` if not already.
+3. Grab the IP address for the pi.
+4. If you haven't installed Ansible already, please follow the instructions below. Make sure to install the collections needed for this playbook.
+5. Run `step1.yml` with the below command. When prompted enter password. Press `ENTER` to accept the default become password
      ```bash
      ansible-playbook --inventory [pi ip address], --user pi --ask-pass --ask-become-pass step1.yml
      ```
-1. Check the IP address of the pi. Run `step2.yml` with the below command using the current IP.
+6. Check the IP address of the pi. Run `step2.yml` with the below command using the current IP.
      ```bash
      ansible-playbook --inventory [pi ip address], --user pi --ask-pass --ask-become-pass step2.yml
      ```
-1. Copy the ssh public key to the bridgevm. SSH to pi and run the below command. The password for the bridgevm should be supplied.
+7. Copy the ssh public key to the bridgevm. SSH to pi and run the below command. The password for the bridgevm should be supplied.
      ```bash
      ssh-copy-id cmesworldpi@40.71.203.3
       ```
-1. Copy the ssh public key to the bridgevm. SSH to pi and run the below command. The password for the bridgevm should be supplied.
+8. Copy the ssh public key to the bridgevm. SSH to pi and run the below command. The password for the bridgevm should be supplied.
      ```bash
      ssh-copy-id cmesworldpi@40.71.203.3
       ```
-1. Run the following scripts to pull down the site.
+9. Run the following scripts to pull down the site.
     - Version.sh
     - GetLogs.sh
     - UpdateVersion.sh
-1. Test the site using the app or by connecting to the Pi's IP address over http.
+10. Test the site using the app or by connecting to the Pi's IP address over http.
 
 ## Troubleshooting
 
@@ -40,10 +41,33 @@ You may also have to connect once prior to running Ansible to add or replace the
 ```bash
 ssh pi@[pi ip address]
 ```
+## Installing Ansible
 
-## Manual Instruction
+### Linux
 
-Manual instructions with comments can be found [here](https://www.dropbox.com/home/CMES-PI%20(Group)/Documentation?preview=Pi4OnTheFly-Documentation.docx)
+Ansible should be installed through PyPi using the `pip` command. If you already use Python for other projects, you may want to create a [virtual environment](https://docs.python.org/3/library/venv.html) for your ansible install. An introduction to installing Ansible can be found [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
+
+1. Install `python3` and `python3-pip` via apt or dnf.
+2. Install the latest version of the ansible bundle with `pip3 install ansible`.
+
+### MacOS
+
+Ansible can be installed via homebrew. Instructions can be found [here](https://medium.com/javarevisited/how-to-install-ansible-on-mac-2baf00d42466).
+Not tested as of 9/10/23
+
+### Windows
+
+Ansible can be installed on a Windows through (WSL)[https://learn.microsoft.com/en-us/windows/wsl/about]. Instructions can be found [here](https://www.youtube.com/watch?v=4w6eVmYY-Oc).
+Not tested as of 9/10/23
+
+### Installing Collections
+
+Install the collections needed for this playbook with `ansible-galaxy collection install -r ./collections/requirements.yml --force`
+
+
+## Manual Instructions
+
+Manual instructions for building a CMES pi can be found [here](https://www.dropbox.com/home/CMES-PI%20(Group)/Documentation?preview=Pi4OnTheFly-Documentation.docx)
 
 ## Notes
 - If startup hangs on starting wlan when running Molecule try removing and reattaching the Wi-Fi card passthrough
