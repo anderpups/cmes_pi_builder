@@ -74,3 +74,12 @@ Manual instructions for building a CMES pi can be found [here](https://www.dropb
 - If using non-desktop figure out packages needed
   - wpasupplicant
   - rfkill
+
+## Questions
+- Do we want the site accessible from the network the Pi is connected to?
+- Should we build on an OS without a desktop environment to save space?
+- Testing protocol
+  - Azure arm VM? Need to figure out how to emulate wlan0
+  - How can we test the pi changing networks?
+  - Are there any edge cases we should test for?
+  - What issues in the field can try to replicate during testing?
