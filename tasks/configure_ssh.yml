@@ -1,4 +1,10 @@
 ---
+- name: Enable sshd
+  ansible.builtin.systemd:
+    name: sshd
+    state: started
+    enabled: true
+
 - name: Create .ssh directory
   ansible.builtin.file:
     path: '~/.ssh/'

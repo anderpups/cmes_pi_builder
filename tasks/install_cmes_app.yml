@@ -16,8 +16,8 @@
 - name: Created needed folders
   ansible.builtin.file:
     path: "{{ item }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: pi
+    group: pi
     state: directory
     mode: '0777' # Can probably make these less
   loop:
@@ -46,6 +46,6 @@
   ansible.builtin.copy:
     src: files/log/UserSearchLog.xml
     dest: /var/www/html/CMES-Pi/assets/Log/UserSearchLog.xml
-    owner: root
-    group: root
+    owner: pi
+    group: pi
     mode: '0777'
