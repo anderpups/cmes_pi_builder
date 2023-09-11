@@ -10,9 +10,15 @@
      ```bash
      ansible-playbook --inventory [pi ip address], --user pi --ask-pass --ask-become-pass step1.yml
      ```
-6. Check the IP address of the pi. Run `step2.yml` with the below command using the current IP.
+6. Check the IP address of the pi to ensure it hasn't changed. Run `step2.yml` with the below command using the current IP.
+
+     For English:
      ```bash
      ansible-playbook --inventory [pi ip address], --user pi --ask-pass --ask-become-pass step2.yml
+     ```
+     For Spanish:
+     ```bash
+     ansible-playbook --extra-vars language=spanish --inventory [pi ip address], --user pi --ask-pass --ask-become-pass step2.yml
      ```
 7. Copy the ssh public key to the bridgevm. SSH to pi and run the below command. The password for the bridgevm should be supplied.
      ```bash
@@ -22,7 +28,7 @@
      ```bash
      ssh-copy-id cmesworldpi@40.71.203.3
       ```
-9. Run the following scripts to pull down the site.
+9.  Run the following scripts to pull down the site.
     - Version.sh
     - GetLogs.sh
     - UpdateVersion.sh
