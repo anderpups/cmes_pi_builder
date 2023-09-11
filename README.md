@@ -1,4 +1,4 @@
-# twb_pi_builder
+# cmes_pi_builder
 
 ## Instructions
 
@@ -27,6 +27,15 @@
     - GetLogs.sh
     - UpdateVersion.sh
 10. Test the site using the app or by connecting to the Pi's IP address over http.
+11. If everything looks good. Shutdown the pi, remove the sd card and insert it your PC.
+12. Write img file from sd card. You will need to find which device your sd card is labeled.
+     ```bash
+     sudo dd if=/dev/mmcblk0 of=./cmes_pi_base_uncompressed.img status=progress
+     ```
+13. Use [pishrink](https://github.com/Drewsif/PiShrink) to shrink the uncompressed image.
+    ```bash
+    pishrink.sh cmes_pi_base_uncompressed.img cmes_pi_base.img
+    ```
 
 ## Troubleshooting
 
@@ -76,8 +85,6 @@ Manual instructions for building a CMES pi can be found [here](https://www.dropb
   - rfkill
 
 ## Questions
-- Do we want the site accessible from the network the Pi is connected to?
-- Should we build on an OS without a desktop environment to save space?
 - Testing protocol
   - Azure arm VM? Need to figure out how to emulate wlan0
   - How can we test the pi changing networks?
