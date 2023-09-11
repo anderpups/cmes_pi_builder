@@ -28,7 +28,7 @@
      ```bash
      ssh-copy-id cmesworldpi@40.71.203.3
       ```
-9.  Run the following scripts to pull down the site.
+9. Run the following scripts to pull down the site.
     - Version.sh
     - GetLogs.sh
     - UpdateVersion.sh
