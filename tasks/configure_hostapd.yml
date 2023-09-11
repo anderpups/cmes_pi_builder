@@ -22,6 +22,7 @@
     name: networking
     enabled: false
     masked: true
+  notify: Reboot host
 
 - name: Mask avahi-daemon.service
   ansible.builtin.systemd:
@@ -29,6 +30,7 @@
     enabled: false
     masked: true
   failed_when: false # The service may not exist
+  notify: Reboot host
 
 - name: Mask dhcpcd
   ansible.builtin.systemd:
@@ -39,6 +41,7 @@
   until: result is not failed
   retries: 5
   delay: 3
+  notify: Reboot host
 
 - name: Disable network/interfaces # This can be better
   ansible.builtin.command: mv /etc/network/interfaces /etc/network/interfaces~
@@ -55,16 +58,19 @@
     owner: root
     group: root
     mode: '0644'
+  notify: Reboot host
 
 - name: Enable systemd-networkd.service
   ansible.builtin.systemd:
     name: systemd-networkd
     enabled: true
+  notify: Reboot host
 
 - name: Enable systemd-resolved.service
   ansible.builtin.systemd:
     name: systemd-resolved
     enabled: true
+  notify: Reboot host
 
 - name: Create symlink for resolv.conf
   ansible.builtin.file:
@@ -76,6 +82,7 @@
     state: link
     follow: false
     force: true
+  notify: Reboot host
 
 - name: Create wpa_supplicant@wlan0.service.d directory
   ansible.builtin.file:
@@ -96,8 +103,10 @@
       [Service]
       ExecStartPre=/sbin/iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
       ExecStopPost=-/sbin/iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+  notify: Reboot host
 
 - name: Restart systemd-networkd.service
   ansible.builtin.systemd:
     name: systemd-networkd
     enabled: true
+  notify: Reboot host
